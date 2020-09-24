@@ -34,6 +34,7 @@ services:
       - /tmp/:rw,noexec,nosuid,size=50m
     ports:
       - 3306:3306
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
 
   #pgsql:
   #  image: postgres:9.5
