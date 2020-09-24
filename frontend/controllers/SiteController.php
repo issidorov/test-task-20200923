@@ -1,10 +1,13 @@
 <?php
 namespace frontend\controllers;
 
+use common\plot\PlotService;
+use frontend\models\PlotSearchForm;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\data\ArrayDataProvider;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -74,7 +77,23 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $search = new PlotSearchForm();
+
+        if ($search->load(Yii::$app->request->post()) && $search->validate()) {
+            $service = new PlotService();
+            $plots = $service->findAll($search->numbersToArray());
+
+            $dataProvider = new ArrayDataProvider([
+                'allModels' => $plots,
+            ]);
+        } else {
+            $dataProvider = null;
+        }
+
+        return $this->render('index', [
+            'search' => $search,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**

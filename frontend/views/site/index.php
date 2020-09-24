@@ -1,53 +1,55 @@
 <?php
 
 /* @var $this yii\web\View */
+/* @var $search \frontend\models\PlotSearchForm */
+/* @var $dataProvider \yii\data\ArrayDataProvider|null */
 
-$this->title = 'My Yii Application';
+use common\plot\PlotEntity;
+use \yii\bootstrap\ActiveForm;
+use \yii\bootstrap\Html;
+
+$this->title = 'Получение кадастровых данных';
 ?>
 <div class="site-index">
+    <h1><?= $this->title ?></h1>
 
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
+    <?php $form = ActiveForm::begin(['enableClientValidation' => false]) ?>
+        <?= $form->field($search, 'numbers')->textInput() ?>
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
-
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
+        <div class="form-group">
+            <?= Html::submitButton('Получить данные', ['class' => 'btn btn-primary']) ?>
         </div>
+    <?php ActiveForm::end() ?>
 
-    </div>
+    <?php if ($dataProvider !== null): ?>
+        <hr>
+
+        <?= \yii\grid\GridView::widget([
+            'dataProvider' => $dataProvider,
+            'columns' => [
+                [
+                    'attribute' => 'number',
+                    'label' => 'Кадастровый номер',
+                ], [
+                    'attribute' => 'address',
+                    'label' => 'Адрес',
+                ], [
+                    'attribute' => 'price',
+                    'label' => 'Стоимость',
+                    'content' => function (PlotEntity $plot) {
+                        $value = Yii::$app->formatter->asDecimal($plot->price, 2);
+                        return $value . ' ₽';
+                    }
+                ], [
+                    'attribute' => 'area',
+                    'label' => '',
+                    'content' => function (PlotEntity $plot) {
+                        $value = Yii::$app->formatter->asDecimal($plot->price, 2);
+                        return $value . ' м<sup>2</sup>';
+                    }
+                ]
+            ],
+            'summary' => 'Всего <b>{totalCount, number}</b> {totalCount, plural, one{запись} few{записи} other{записей}}.',
+        ]) ?>
+    <?php endif; ?>
 </div>
