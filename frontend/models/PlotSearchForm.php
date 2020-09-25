@@ -4,6 +4,7 @@
 namespace frontend\models;
 
 
+use common\components\plot\CadastralNumberValidator;
 use yii\base\Model;
 
 class PlotSearchForm extends Model
@@ -40,10 +41,11 @@ class PlotSearchForm extends Model
 
     public function validateNumbers()
     {
+        $validator = new CadastralNumberValidator();
         foreach ($this->numbersToArray() as $number) {
-            if (!preg_match('/^\d{2}:\d{2}:\d{7}:\d{4}$/', $number)) {
-                $this->addError('numbers', 'Поле заполнено не верно');
-                return;
+            if (!$validator->validate($number, $error)) {
+                $this->addError('numbers', $error);
+                break;
             }
         }
     }
