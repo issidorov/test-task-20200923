@@ -4,7 +4,7 @@
 /* @var $search \frontend\models\PlotSearchForm */
 /* @var $dataProvider \yii\data\ArrayDataProvider|null */
 
-use common\plot\PlotEntity;
+use common\components\plot\models\Plot;
 use \yii\bootstrap\ActiveForm;
 use \yii\bootstrap\Html;
 
@@ -36,14 +36,14 @@ $this->title = 'Получение кадастровых данных';
                 ], [
                     'attribute' => 'price',
                     'label' => 'Стоимость',
-                    'content' => function (PlotEntity $plot) {
+                    'content' => function (Plot $plot) {
                         $value = Yii::$app->formatter->asDecimal($plot->price, 2);
                         return $value . ' ₽';
                     }
                 ], [
                     'attribute' => 'area',
                     'label' => '',
-                    'content' => function (PlotEntity $plot) {
+                    'content' => function (Plot $plot) {
                         $value = Yii::$app->formatter->asDecimal($plot->price, 2);
                         return $value . ' м<sup>2</sup>';
                     }

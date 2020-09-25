@@ -1,13 +1,14 @@
 <?php
 namespace frontend\controllers;
 
-use common\plot\PlotService;
+use common\components\plot\models\Plot;
+use common\components\plot\PlotSync;
 use frontend\models\PlotSearchForm;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
-use yii\data\ArrayDataProvider;
+use yii\data\ActiveDataProvider;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -30,7 +31,7 @@ class SiteController extends Controller
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'only' => ['logout', 'signup'],
                 'rules' => [
                     [
@@ -46,7 +47,7 @@ class SiteController extends Controller
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'logout' => ['post'],
                 ],
@@ -80,11 +81,13 @@ class SiteController extends Controller
         $search = new PlotSearchForm();
 
         if ($search->load(Yii::$app->request->post()) && $search->validate()) {
-            $service = new PlotService();
-            $plots = $service->findAll($search->numbersToArray());
+            $numbers = $search->numbersToArray();
+            (new PlotSync())->run($numbers);
 
-            $dataProvider = new ArrayDataProvider([
-                'allModels' => $plots,
+            $query = Plot::find()->where(['number' => $numbers]);
+
+            $dataProvider = new ActiveDataProvider([
+                'query' => $query,
             ]);
         } else {
             $dataProvider = null;
