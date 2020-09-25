@@ -48,3 +48,12 @@ $numbers = ['69:27:0000022:1306', '69:27:0000022:1307'];
 $plots = Plot::findAll(['number' => $numbers]);
 ```
 
+### Screenshots
+
+1. [Ссылка](screenshots/2020-09-25_16-32-32.png)
+2. [Ссылка](screenshots/2020-09-25_16-32-50.png)
+3. [Ссылка](screenshots/2020-09-25_16-33-14.png)
+4. [Ссылка](screenshots/2020-09-25_16-33-49.png)
+5. [Ссылка](screenshots/2020-09-25_16-35-25.png)
+6. [Ссылка](screenshots/2020-09-25_16-38-40.png)
+
