@@ -37,14 +37,16 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/test/plots'],
             ],
         ],
-        */
+    ],
+    'modules' => [
+        'api' => 'frontend\modules\api\Module'
     ],
     'params' => $params,
 ];
