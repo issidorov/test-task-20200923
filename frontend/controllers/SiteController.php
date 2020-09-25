@@ -1,8 +1,7 @@
 <?php
 namespace frontend\controllers;
 
-use common\components\plot\models\Plot;
-use common\components\plot\PlotSync;
+use common\models\Plot;
 use frontend\models\PlotSearchForm;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
@@ -82,7 +81,7 @@ class SiteController extends Controller
 
         if ($search->load(Yii::$app->request->post()) && $search->validate()) {
             $numbers = $search->numbersToArray();
-            (new PlotSync())->run($numbers);
+            Yii::$app->plotSync->run($numbers);
 
             $query = Plot::find()->where(['number' => $numbers]);
 

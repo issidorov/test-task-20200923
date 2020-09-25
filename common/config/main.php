@@ -1,4 +1,8 @@
 <?php
+
+use common\components\plot\PlotSync;
+use common\models\Plot;
+
 return [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -9,5 +13,8 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'plotSync' => function () {
+            return new PlotSync(Plot::class);
+        }
     ],
 ];

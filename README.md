@@ -38,12 +38,11 @@
 соответствующую модель.
 
 ```php
-use common\components\plot\PlotSync;
-use common\components\plot\models\Plot;
+use common\models\Plot;
 
 $numbers = ['69:27:0000022:1306', '69:27:0000022:1307'];
 
-(new PlotSync())->run($numbers);
+Yii::$app->plotSync->run($numbers);
 
 $plots = Plot::findAll(['number' => $numbers]);
 ```

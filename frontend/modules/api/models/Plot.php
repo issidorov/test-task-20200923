@@ -4,7 +4,7 @@
 namespace frontend\modules\api\models;
 
 
-class Plot extends \common\components\plot\models\Plot
+class Plot extends \common\models\Plot
 {
     public function fields()
     {

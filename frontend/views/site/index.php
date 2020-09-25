@@ -4,9 +4,10 @@
 /* @var $search \frontend\models\PlotSearchForm */
 /* @var $dataProvider \yii\data\ArrayDataProvider|null */
 
-use common\components\plot\models\Plot;
+use common\models\Plot;
 use \yii\bootstrap\ActiveForm;
 use \yii\bootstrap\Html;
+use yii\grid\GridView;
 
 $this->title = 'Получение кадастровых данных';
 ?>
@@ -24,7 +25,7 @@ $this->title = 'Получение кадастровых данных';
     <?php if ($dataProvider !== null): ?>
         <hr>
 
-        <?= \yii\grid\GridView::widget([
+        <?= GridView::widget([
             'dataProvider' => $dataProvider,
             'columns' => [
                 [

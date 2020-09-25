@@ -3,15 +3,17 @@
 
 namespace common\tests\unit\components\plot;
 
-use common\components\plot\models\Plot;
+use Codeception\Test\Unit;
+use common\models\Plot;
 use common\components\plot\PlotSync;
+use common\tests\UnitTester;
 use PHPUnit\Framework\MockObject\MockObject;
 use common\components\plot\RemoteRequest;
 
-class BaseTestCase extends \Codeception\Test\Unit
+class BaseTestCase extends Unit
 {
     /**
-     * @var \common\tests\UnitTester
+     * @var UnitTester
      */
     protected $tester;
 
@@ -33,7 +35,7 @@ class BaseTestCase extends \Codeception\Test\Unit
     protected function createPlotSync(): PlotSync
     {
         $remoteRequest = $this->createRemoteRequestMock();
-        return new PlotSync($remoteRequest);
+        return new PlotSync(Plot::class, $remoteRequest);
     }
 
     /**

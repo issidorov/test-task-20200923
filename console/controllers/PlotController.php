@@ -5,12 +5,13 @@ namespace console\controllers;
 
 
 use common\components\plot\CadastralNumberValidator;
-use common\components\plot\PlotSync;
-use common\components\plot\models\Plot;
+use common\models\Plot;
+use Yii;
+use yii\console\Controller;
 use yii\console\widgets\Table;
 use yii\helpers\ArrayHelper;
 
-class PlotController extends \yii\console\Controller
+class PlotController extends Controller
 {
     public function actionParse(string $numbers)
     {
@@ -28,7 +29,7 @@ class PlotController extends \yii\console\Controller
             }
         }
 
-        (new PlotSync())->run($numbers);
+        Yii::$app->plotSync->run($numbers);
         $plots = Plot::findAll(['number' => $numbers]);
 
         if ($plots) {
