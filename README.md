@@ -11,7 +11,7 @@
     ```
 3. Все дальнейшие операции выполняем с ипользованием Bash из контейнера
     ```
-    docker-compose run backend bash
+    docker-compose exec backend bash
     ```
 4. Загружаем зависимости composer
     ```
