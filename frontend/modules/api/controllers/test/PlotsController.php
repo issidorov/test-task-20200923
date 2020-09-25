@@ -3,12 +3,20 @@
 namespace frontend\modules\api\controllers\test;
 
 use frontend\modules\api\models\Plot;
-use yii\rest\ActiveController;
+use yii\data\ActiveDataProvider;
+use yii\rest\Controller;
 
-/**
- * Default controller for the `api` module
- */
-class PlotsController extends ActiveController
+class PlotsController extends Controller
 {
-    public $modelClass = Plot::class;
+    public function actionIndex()
+    {
+        return new ActiveDataProvider([
+            'query' => Plot::find()
+        ]);
+    }
+
+    public function actionView($number)
+    {
+        return Plot::findOne(['number' => $number]);
+    }
 }

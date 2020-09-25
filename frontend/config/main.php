@@ -41,7 +41,13 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/test/plots'],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/test/plots',
+                    'tokens' => [
+                        '{id}' => '<number:[\\w:]+>'
+                    ]
+                ],
             ],
         ],
     ],
