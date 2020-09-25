@@ -1,7 +1,7 @@
 <?php
 
 
-namespace common\plot;
+namespace common\components\plot;
 
 
 use yii\httpclient\Client;

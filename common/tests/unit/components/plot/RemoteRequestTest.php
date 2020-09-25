@@ -1,14 +1,11 @@
 <?php
 
-namespace common\tests\unit\plot;
+namespace common\tests\unit\components\plot;
 
+use common\components\plot\RemoteRequest;
 
-use common\plot\RemoteRequest;
-
-class RemoteRequestTest extends \Codeception\Test\Unit
+class RemoteRequestTest extends BaseTestCase
 {
-    use HelperTrait;
-
     public function test()
     {
         $mockedRequest = $this->createRemoteRequestMock();
