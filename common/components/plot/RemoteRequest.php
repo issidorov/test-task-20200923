@@ -4,6 +4,7 @@
 namespace common\components\plot;
 
 
+use Error;
 use yii\httpclient\Client;
 
 class RemoteRequest
@@ -12,7 +13,6 @@ class RemoteRequest
     {
         $response = (new Client())->createRequest()
             ->setUrl('http://pkk.bigland.ru/api/test/plots')
-            ->setHeaders(['accept' => 'application/json'])
             ->setFormat(Client::FORMAT_JSON)
             ->setData([
                 'collection' => [
@@ -24,7 +24,7 @@ class RemoteRequest
         if ($response->isOk) {
             return json_decode($response->content);
         } else {
-            throw new \Error('Invalid http request Plot data');
+            throw new Error('Invalid http request Plot data');
         }
     }
 }
