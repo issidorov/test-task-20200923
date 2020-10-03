@@ -27,22 +27,46 @@ class PlotSync
 
     public function run(array $numbers)
     {
-        $records = $this->modelClass::findAll(['number' => $numbers]);
-
-        $existsNumbers = ArrayHelper::getColumn($records, 'number');
-        $notExistsNumbers = array_diff($numbers, $existsNumbers);
-
+        $notExistsNumbers = $this->filterNotExistsNumbers($numbers);
         $remoteItems = $this->remoteRequest->run($notExistsNumbers);
         foreach ($remoteItems as $item) {
-            $record = new $this->modelClass([
-                'number' => $item->number,
-                'address' => $item->data->attrs->address,
-                'price' => $item->data->attrs->cad_cost,
-                'area' => $item->data->attrs->area_value,
-            ]);
-            if (!$record->save()) {
-                throw new Error('Invalid save Plot data');
-            }
+            $this->saveItem($item);
+        }
+    }
+
+    private function filterNotExistsNumbers($numbers)
+    {
+        $existsModels = $this->findExistsModelsByNumbers($numbers);
+        $existsNumbers = ArrayHelper::getColumn($existsModels, 'number');
+        return array_diff($numbers, $existsNumbers);
+    }
+
+    private function findExistsModelsByNumbers($numbers)
+    {
+        return $this->modelClass::findAll(['number' => $numbers]);
+    }
+
+    private function saveItem($item)
+    {
+        $model = $this->createModelFromItem($item);
+        $this->saveModel($model);
+    }
+
+    private function createModelFromItem($item)
+    {
+        $model = new $this->modelClass();
+        $model->number = $item->number;
+        $model->address = $item->data->attrs->address;
+        $model->price = $item->data->attrs->cad_cost;
+        $model->area = $item->data->attrs->area_value;
+        return $model;
+    }
+
+    private function saveModel(ActiveRecord $model)
+    {
+        $res = $model->save();
+        if (!$res) {
+            throw new Error('Invalid save Plot data');
         }
     }
 }
