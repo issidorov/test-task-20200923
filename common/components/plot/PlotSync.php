@@ -19,10 +19,10 @@ class PlotSync
      */
     private $remoteRequest;
 
-    public function __construct(string $modelClass, RemoteRequest $remoteRequest = null)
+    public function __construct(string $modelClass, RemoteRequest $remoteRequest)
     {
         $this->modelClass = $modelClass;
-        $this->remoteRequest = $remoteRequest ?? new RemoteRequest();
+        $this->remoteRequest = $remoteRequest;
     }
 
     public function run(array $numbers)

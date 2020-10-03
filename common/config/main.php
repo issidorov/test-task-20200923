@@ -1,7 +1,6 @@
 <?php
 
-use common\components\plot\PlotSync;
-use common\models\Plot;
+use common\components\plot\PlotSyncBuilder;
 
 return [
     'aliases' => [
@@ -14,7 +13,7 @@ return [
             'class' => 'yii\caching\FileCache',
         ],
         'plotSync' => function () {
-            return new PlotSync(Plot::class);
+            return (new PlotSyncBuilder())->build();
         }
     ],
 ];
